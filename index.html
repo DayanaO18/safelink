@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SafeLink – Seguridad Personal Inteligente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #051B34;
+    --blue-deep: #0A2D50;
+    --blue-mid: #0E4A82;
+    --blue-accent: #1A72C8;
+    --blue-bright: #2E9BFF;
+    --blue-glow: #5BB8FF;
+    --white: #FFFFFF;
+    --off-white: #F0F6FF;
+    --gray-light: #C8D8F0;
+    --gray-mid: #7A9CBF;
+    --red-sos: #E8314A;
+    --green-ok: #1ACEA8;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 6%;
+    background: rgba(5,27,52,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(46,155,255,0.15);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-display); font-size: 1.4rem; font-weight: 800;
+    color: var(--white); text-decoration: none;
+  }
+  .nav-logo-icon {
+    width: 36px; height: 36px; background: var(--blue-accent);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  }
+  .nav-logo-icon svg { width: 20px; height: 20px; fill: white; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--gray-light); text-decoration: none; font-size: 0.9rem;
+    font-weight: 400; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--blue-bright); }
+  .nav-badge {
+    background: var(--blue-accent); color: white;
+    padding: 0.45rem 1.2rem; border-radius: 20px;
+    font-size: 0.82rem; font-weight: 500; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-badge:hover { background: var(--blue-bright); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 7rem 6% 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 70% 50%, rgba(26,114,200,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 10% 80%, rgba(10,74,130,0.25) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; z-index: 0; opacity: 0.06;
+    background-image: linear-gradient(rgba(46,155,255,1) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(46,155,255,1) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 55%; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(46,155,255,0.12); border: 1px solid rgba(46,155,255,0.3);
+    padding: 0.4rem 1rem; border-radius: 20px;
+    font-size: 0.8rem; color: var(--blue-glow); margin-bottom: 1.5rem;
+    letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500;
+  }
+  .hero-tag::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green-ok); animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+  .hero h1 {
+    font-family: var(--font-display); font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 800; line-height: 1.05; margin-bottom: 1.5rem;
+    color: var(--white);
+  }
+  .hero h1 span { color: var(--blue-bright); }
+  .hero p {
+    font-size: 1.1rem; line-height: 1.75; color: var(--gray-light);
+    max-width: 480px; margin-bottom: 2.5rem; font-weight: 300;
+  }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--blue-accent); color: white;
+    padding: 0.9rem 2rem; border-radius: 12px;
+    font-weight: 500; font-size: 0.95rem; text-decoration: none;
+    transition: all 0.2s; border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: var(--blue-bright); transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent; color: var(--blue-glow);
+    padding: 0.9rem 2rem; border-radius: 12px;
+    font-weight: 500; font-size: 0.95rem; text-decoration: none;
+    border: 1px solid rgba(91,184,255,0.4); transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-outline:hover { background: rgba(91,184,255,0.08); border-color: var(--blue-glow); }
+
+  /* device mockup */
+  .hero-device {
+    position: absolute; right: 6%; top: 50%; transform: translateY(-50%);
+    z-index: 1; width: 340px;
+  }
+  .device-frame {
+    background: linear-gradient(160deg, #0E3060 0%, #051B34 100%);
+    border: 1px solid rgba(46,155,255,0.25);
+    border-radius: 24px; padding: 1.5rem;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .device-screen {
+    background: var(--navy); border-radius: 16px;
+    overflow: hidden; border: 1px solid rgba(46,155,255,0.2);
+  }
+  .device-statusbar {
+    background: #030F1E; padding: 0.5rem 1rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .device-statusbar span { font-size: 0.7rem; color: var(--gray-mid); }
+  .device-header {
+    background: #041525; padding: 0.8rem 1rem;
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid rgba(46,155,255,0.1);
+  }
+  .device-header-icon {
+    width: 28px; height: 28px; background: var(--blue-accent);
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  }
+  .device-header-icon svg { width: 14px; height: 14px; fill: white; }
+  .device-header-title { font-family: var(--font-display); font-size: 0.9rem; font-weight: 700; }
+  .device-header-sub { font-size: 0.65rem; color: var(--gray-mid); }
+  .device-body { padding: 1rem; }
+  .sos-area {
+    background: rgba(232,49,74,0.08); border: 1px solid rgba(232,49,74,0.25);
+    border-radius: 12px; padding: 1rem; text-align: center; margin-bottom: 0.8rem;
+  }
+  .sos-label { font-size: 0.65rem; color: #FF6B7A; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .sos-btn {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--red-sos); margin: 0 auto 0.5rem;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 0.75rem; font-weight: 800;
+    color: white; letter-spacing: 0.05em;
+    box-shadow: 0 0 20px rgba(232,49,74,0.4);
+  }
+  .sos-hint { font-size: 0.6rem; color: var(--gray-mid); }
+  .device-status-bar {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin-bottom: 0.8rem;
+  }
+  .status-item {
+    background: rgba(46,155,255,0.06); border: 1px solid rgba(46,155,255,0.12);
+    border-radius: 8px; padding: 0.5rem; text-align: center;
+  }
+  .status-item .val { font-size: 0.75rem; font-weight: 600; color: var(--blue-glow); }
+  .status-item .lbl { font-size: 0.55rem; color: var(--gray-mid); margin-top: 2px; }
+  .connected-pill {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(26,206,168,0.08); border: 1px solid rgba(26,206,168,0.2);
+    border-radius: 8px; padding: 0.45rem 0.7rem; font-size: 0.65rem; color: var(--green-ok);
+  }
+  .connected-pill::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green-ok);
+  }
+  .hero-stats {
+    display: flex; gap: 2rem; margin-top: 3rem;
+    padding-top: 2rem; border-top: 1px solid rgba(46,155,255,0.12);
+  }
+  .hero-stat-val {
+    font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; color: var(--blue-bright);
+  }
+  .hero-stat-lbl { font-size: 0.8rem; color: var(--gray-mid); margin-top: 2px; }
+
+  /* ── SECTION BASE ── */
+  section { padding: 6rem 6%; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--blue-glow); font-weight: 500; margin-bottom: 1rem;
+  }
+  .section-label::before {
+    content: ''; width: 24px; height: 1px; background: var(--blue-bright);
+  }
+  .section-h2 {
+    font-family: var(--font-display); font-size: clamp(1.9rem,3vw,2.8rem);
+    font-weight: 700; line-height: 1.15; margin-bottom: 1rem; color: var(--white);
+  }
+  .section-h2 span { color: var(--blue-bright); }
+  .section-sub {
+    font-size: 1.05rem; color: var(--gray-light); font-weight: 300;
+    line-height: 1.7; max-width: 540px; margin-bottom: 3rem;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .hiw { background: var(--blue-deep); }
+  .hiw-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 1.5rem; }
+  .hiw-card {
+    background: rgba(10,45,80,0.6); border: 1px solid rgba(46,155,255,0.15);
+    border-radius: 16px; padding: 1.8rem 1.5rem;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .hiw-card:hover { border-color: rgba(46,155,255,0.4); transform: translateY(-4px); }
+  .hiw-num {
+    font-family: var(--font-display); font-size: 2.5rem; font-weight: 800;
+    color: rgba(46,155,255,0.2); margin-bottom: 1rem; line-height: 1;
+  }
+  .hiw-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: rgba(26,114,200,0.15); border: 1px solid rgba(46,155,255,0.25);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;
+  }
+  .hiw-icon svg { width: 22px; height: 22px; }
+  .hiw-card h3 {
+    font-family: var(--font-display); font-size: 1rem; font-weight: 600;
+    margin-bottom: 0.6rem; color: var(--white);
+  }
+  .hiw-card p { font-size: 0.88rem; color: var(--gray-light); line-height: 1.65; }
+
+  /* ── APP FEATURES ── */
+  .features { background: var(--navy); }
+  .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  .features-list { display: flex; flex-direction: column; gap: 1.2rem; }
+  .feat-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: 1.2rem; border-radius: 12px;
+    border: 1px solid rgba(46,155,255,0.1);
+    background: rgba(14,74,130,0.08);
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .feat-item:hover { background: rgba(14,74,130,0.18); border-color: rgba(46,155,255,0.25); }
+  .feat-icon {
+    width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .feat-icon svg { width: 20px; height: 20px; }
+  .feat-icon.blue { background: rgba(26,114,200,0.2); }
+  .feat-icon.red { background: rgba(232,49,74,0.15); }
+  .feat-icon.green { background: rgba(26,206,168,0.15); }
+  .feat-icon.amber { background: rgba(255,180,50,0.15); }
+  .feat-title { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.3rem; color: var(--white); }
+  .feat-desc { font-size: 0.83rem; color: var(--gray-light); line-height: 1.6; }
+
+  /* phone mockup */
+  .phone-wrap { position: relative; display: flex; justify-content: center; }
+  .phone-outer {
+    width: 260px; background: #08203A;
+    border: 1px solid rgba(46,155,255,0.2); border-radius: 36px; padding: 10px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.5);
+  }
+  .phone-inner { background: var(--navy); border-radius: 28px; overflow: hidden; }
+  .phone-notch {
+    width: 80px; height: 6px; background: #0E3060; border-radius: 0 0 8px 8px;
+    margin: 0 auto 8px;
+  }
+  .phone-screen-pad { padding: 0 12px 16px; }
+  .phone-greeting { font-size: 0.75rem; margin-bottom: 10px; }
+  .phone-greeting strong { color: var(--white); font-weight: 600; }
+  .phone-greeting span { color: var(--gray-mid); font-size: 0.65rem; }
+  .map-placeholder {
+    background: linear-gradient(135deg, #0A2040 0%, #051428 100%);
+    border-radius: 12px; height: 120px; margin-bottom: 10px; position: relative;
+    overflow: hidden; border: 1px solid rgba(46,155,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .map-grid {
+    position: absolute; inset: 0; opacity: 0.15;
+    background-image: linear-gradient(rgba(46,155,255,1) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(46,155,255,1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .map-dot {
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--blue-bright); z-index: 1;
+    box-shadow: 0 0 0 6px rgba(46,155,255,0.2);
+  }
+  .map-label { position: absolute; bottom: 8px; left: 10px; font-size: 0.6rem; color: var(--blue-glow); z-index: 1; }
+  .phone-quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+  .quick-btn {
+    background: rgba(14,74,130,0.3); border: 1px solid rgba(46,155,255,0.15);
+    border-radius: 8px; padding: 8px; text-align: center;
+  }
+  .quick-btn .q-icon { font-size: 1rem; margin-bottom: 2px; }
+  .quick-btn .q-label { font-size: 0.6rem; color: var(--gray-light); }
+  .phone-bottom-nav {
+    display: flex; justify-content: space-around;
+    background: #030F1E; padding: 8px 0; border-top: 1px solid rgba(46,155,255,0.08);
+  }
+  .phone-bottom-nav span { font-size: 0.55rem; color: var(--gray-mid); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .phone-bottom-nav span.active { color: var(--blue-bright); }
+  .phone-bottom-nav svg { width: 16px; height: 16px; }
+
+  /* ── HARDWARE ── */
+  .hardware { background: var(--blue-deep); }
+  .hw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .hw-components { display: flex; flex-direction: column; gap: 1rem; }
+  .hw-comp {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.2rem; border-radius: 12px;
+    background: rgba(10,45,80,0.5); border: 1px solid rgba(46,155,255,0.12);
+  }
+  .hw-comp-dot {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  }
+  .hw-comp h4 { font-size: 0.88rem; font-weight: 500; color: var(--white); margin-bottom: 2px; }
+  .hw-comp p { font-size: 0.78rem; color: var(--gray-mid); }
+  .hw-spec-box {
+    background: rgba(5,27,52,0.7); border: 1px solid rgba(46,155,255,0.2);
+    border-radius: 16px; padding: 1.5rem;
+  }
+  .hw-spec-box h3 {
+    font-family: var(--font-display); font-size: 1rem; font-weight: 600;
+    margin-bottom: 1rem; color: var(--blue-glow);
+  }
+  .spec-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.6rem 0; border-bottom: 1px solid rgba(46,155,255,0.08); font-size: 0.85rem;
+  }
+  .spec-row:last-child { border-bottom: none; }
+  .spec-row .key { color: var(--gray-mid); }
+  .spec-row .val { color: var(--white); font-weight: 500; font-size: 0.82rem; text-align: right; }
+  .spec-row .val.green { color: var(--green-ok); }
+  .spec-row .val.blue { color: var(--blue-bright); }
+
+  /* ── ARCHITECTURE ── */
+  .arch { background: var(--navy); }
+  .arch-diagram {
+    border: 1px solid rgba(46,155,255,0.15); border-radius: 20px;
+    background: rgba(10,45,80,0.3); padding: 2.5rem;
+    display: flex; flex-direction: column; gap: 1.5rem;
+  }
+  .arch-row { display: flex; align-items: center; gap: 1rem; }
+  .arch-box {
+    flex: 1; border-radius: 12px; padding: 1rem 1.2rem;
+    border: 1px solid rgba(46,155,255,0.2);
+    background: rgba(14,74,130,0.12);
+  }
+  .arch-box.accent { background: rgba(26,114,200,0.2); border-color: rgba(46,155,255,0.4); }
+  .arch-box h4 {
+    font-family: var(--font-display); font-size: 0.85rem; font-weight: 600;
+    color: var(--white); margin-bottom: 4px;
+  }
+  .arch-box p { font-size: 0.75rem; color: var(--gray-mid); }
+  .arch-arrow {
+    color: var(--blue-bright); font-size: 1.2rem; flex-shrink: 0;
+  }
+  .arch-label {
+    font-size: 0.72rem; color: var(--gray-mid); text-align: center;
+    padding: 0.4rem 1rem; background: rgba(46,155,255,0.06); border-radius: 20px;
+    border: 1px solid rgba(46,155,255,0.12); white-space: nowrap;
+  }
+
+  /* ── RESEARCH ── */
+  .research { background: var(--blue-deep); }
+  .research-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 1.5rem; }
+  .research-card {
+    background: rgba(5,27,52,0.7); border: 1px solid rgba(46,155,255,0.15);
+    border-radius: 16px; padding: 1.5rem;
+  }
+  .research-card .badge {
+    display: inline-block; font-size: 0.65rem; padding: 3px 10px; border-radius: 10px;
+    margin-bottom: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .badge.blue { background: rgba(26,114,200,0.2); color: var(--blue-glow); border: 1px solid rgba(46,155,255,0.2); }
+  .badge.green { background: rgba(26,206,168,0.12); color: var(--green-ok); border: 1px solid rgba(26,206,168,0.2); }
+  .badge.red { background: rgba(232,49,74,0.1); color: #FF6B7A; border: 1px solid rgba(232,49,74,0.2); }
+  .research-card .big-num {
+    font-family: var(--font-display); font-size: 2.2rem; font-weight: 800;
+    color: var(--white); line-height: 1;
+  }
+  .research-card .big-num span { color: var(--blue-bright); }
+  .research-card p { font-size: 0.82rem; color: var(--gray-light); margin-top: 0.5rem; line-height: 1.6; }
+  .research-card cite { font-size: 0.72rem; color: var(--gray-mid); font-style: italic; display: block; margin-top: 0.8rem; }
+
+  /* ── TEAM / ABOUT ── */
+  .about { background: var(--navy); }
+  .about-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+  }
+  .about-card {
+    background: rgba(14,74,130,0.1); border: 1px solid rgba(46,155,255,0.15);
+    border-radius: 20px; padding: 2.5rem;
+  }
+  .about-avatar {
+    width: 70px; height: 70px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue-accent), var(--blue-mid));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 1.6rem; font-weight: 800;
+    color: white; margin-bottom: 1.2rem;
+  }
+  .about-card h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+  .about-card .role { color: var(--blue-glow); font-size: 0.85rem; margin-bottom: 1rem; }
+  .about-card p { font-size: 0.88rem; color: var(--gray-light); line-height: 1.7; }
+  .uni-badge {
+    display: flex; align-items: center; gap: 10px; margin-top: 1.5rem;
+    padding: 0.8rem 1rem; background: rgba(46,155,255,0.07);
+    border: 1px solid rgba(46,155,255,0.15); border-radius: 10px;
+  }
+  .uni-badge svg { width: 20px; height: 20px; flex-shrink: 0; }
+  .uni-badge span { font-size: 0.78rem; color: var(--gray-light); }
+  .uni-badge strong { color: var(--white); display: block; font-size: 0.82rem; }
+  .about-meta { display: flex; flex-direction: column; gap: 1.2rem; }
+  .meta-item {
+    padding: 1.2rem 1.5rem; border-radius: 12px;
+    border-left: 3px solid var(--blue-accent);
+    background: rgba(14,74,130,0.08);
+  }
+  .meta-item h4 { font-size: 0.88rem; font-weight: 500; color: var(--white); margin-bottom: 4px; }
+  .meta-item p { font-size: 0.82rem; color: var(--gray-mid); }
+
+  /* ── CONTACT / CTA ── */
+  .cta-section {
+    background: var(--blue-deep); text-align: center;
+    padding: 6rem 6%;
+  }
+  .cta-section h2 {
+    font-family: var(--font-display); font-size: clamp(2rem,4vw,3rem);
+    font-weight: 800; margin-bottom: 1rem;
+  }
+  .cta-section p { font-size: 1.05rem; color: var(--gray-light); margin-bottom: 2.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+  .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #030F1E; padding: 2rem 6%;
+    border-top: 1px solid rgba(46,155,255,0.1);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+  }
+  footer .logo { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--white); }
+  footer p { font-size: 0.8rem; color: var(--gray-mid); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.8rem; color: var(--gray-mid); text-decoration: none; }
+  .footer-links a:hover { color: var(--blue-glow); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero-device { display: none; }
+    .hero-content { max-width: 100%; }
+    .features-grid, .hw-grid, .about-inner { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-content > * { animation: fadeUp 0.6s ease both; }
+  .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+  .hero-content > *:nth-child(5) { animation-delay: 0.5s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+    </div>
+    SafeLink
+  </a>
+  <ul class="nav-links">
+    <li><a href="#como-funciona">Cómo funciona</a></li>
+    <li><a href="#app">App móvil</a></li>
+    <li><a href="#dispositivo">Dispositivo</a></li>
+    <li><a href="#investigacion">Investigación</a></li>
+    <li><a href="#sobre">Sobre el proyecto</a></li>
+  </ul>
+  <a href="#contacto" class="nav-badge">Más información</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Sistema activo · Chiclayo, Perú</div>
+    <h1>Seguridad personal <span>inteligente</span> en tiempo real</h1>
+    <p>SafeLink es un sistema de alerta de emergencia que combina una aplicación móvil con un dispositivo GPS autónomo portátil, diseñado para reducir los tiempos de respuesta en la localización de personas desaparecidas.</p>
+    <div class="hero-ctas">
+      <a href="#como-funciona" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Ver cómo funciona
+      </a>
+      <a href="#investigacion" class="btn-outline">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        Base de investigación
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-val">≤10s</div>
+        <div class="hero-stat-lbl">Latencia objetivo de alerta</div>
+      </div>
+      <div>
+        <div class="hero-stat-val">≥95%</div>
+        <div class="hero-stat-lbl">Tasa de entrega de alertas</div>
+      </div>
+      <div>
+        <div class="hero-stat-val">543</div>
+        <div class="hero-stat-lbl">Casos reportados en Lambayeque</div>
+      </div>
+    </div>
+  </div>
+  <!-- Device mockup -->
+  <div class="hero-device">
+    <div class="device-frame">
+      <div class="device-screen">
+        <div class="device-statusbar">
+          <span>7:20</span>
+          <span>●●● 4G 100%</span>
+        </div>
+        <div class="device-header">
+          <div class="device-header-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          </div>
+          <div>
+            <div class="device-header-title">SafeLink</div>
+            <div class="device-header-sub">Tu dispositivo de seguridad</div>
+          </div>
+        </div>
+        <div class="device-body">
+          <div class="sos-area">
+            <div class="sos-label">Botón de emergencia</div>
+            <div class="sos-btn">SOS</div>
+            <div class="sos-hint">Mantén 2 segundos para activar</div>
+          </div>
+          <div class="device-status-bar">
+            <div class="status-item"><div class="val">87%</div><div class="lbl">Batería</div></div>
+            <div class="status-item"><div class="val" style="color:var(--green-ok)">Fix</div><div class="lbl">GPS</div></div>
+            <div class="status-item"><div class="val">4G</div><div class="lbl">Red</div></div>
+          </div>
+          <div class="connected-pill">Dispositivo SafeLink conectado por BLE</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="hiw" id="como-funciona">
+  <div class="section-label">Sistema</div>
+  <h2 class="section-h2">¿Cómo <span>funciona</span> SafeLink?</h2>
+  <p class="section-sub">Tres canales de activación, dos componentes que trabajan en conjunto, un único objetivo: que la alerta llegue sin importar las condiciones.</p>
+  <div class="hiw-grid">
+    <div class="hiw-card">
+      <div class="hiw-num">01</div>
+      <div class="hiw-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2E9BFF" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      </div>
+      <h3>Activación de alerta</h3>
+      <p>El usuario activa la alerta por tres vías: botón físico de pánico en el dispositivo wearable, comando de voz con palabras clave configuradas ("auxilio", "socorro"), o botón SOS en la app móvil.</p>
+    </div>
+    <div class="hiw-card">
+      <div class="hiw-num">02</div>
+      <div class="hiw-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1ACEA8" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      </div>
+      <h3>Captura GPS</h3>
+      <p>El módulo NEO-M8N adquiere la posición con precisión ≤10 m en entorno urbano. Opera independientemente del celular del usuario, garantizando geolocalización incluso si el teléfono fue sustraído.</p>
+    </div>
+    <div class="hiw-card">
+      <div class="hiw-num">03</div>
+      <div class="hiw-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2E9BFF" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013 5.18 2 2 0 014.99 3h3a2 2 0 012 1.72 13 13 0 00.7 2.81 2 2 0 01-.45 2.11L9.09 10.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 13 13 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      </div>
+      <h3>Transmisión inteligente</h3>
+      <p>Con celular disponible: envía por BLE → app → Firebase en &lt;10 s. Sin celular: el módulo A7670SA transmite de forma autónoma por 4G LTE-M, enviando SMS y datos a los contactos registrados.</p>
+    </div>
+    <div class="hiw-card">
+      <div class="hiw-num">04</div>
+      <div class="hiw-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#FFB432" stroke-width="2"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+      </div>
+      <h3>Notificación a contactos</h3>
+      <p>Los contactos de emergencia registrados reciben en tiempo real: coordenadas GPS, timestamp preciso (DS3231) y notificaciones push (Firebase) + SMS (Twilio) como canal de respaldo garantizado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- APP FEATURES -->
+<section class="features" id="app">
+  <div class="section-label">Aplicación móvil</div>
+  <h2 class="section-h2">App Flutter <span>SafeLink</span></h2>
+  <p class="section-sub">Diseñada para ser usable bajo estrés extremo. Botones grandes, pocos pasos, interfaz clara. Compatible con Android.</p>
+  <div class="features-grid">
+    <div class="features-list">
+      <div class="feat-item">
+        <div class="feat-icon red">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#E8314A" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div>
+          <div class="feat-title">Botón SOS con confirmación de 2 segundos</div>
+          <div class="feat-desc">Evita activaciones accidentales. Al mantenerse presionado 2 segundos, envía la alerta y muestra confirmación con coordenadas y contactos notificados.</div>
+        </div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2E9BFF" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </div>
+        <div>
+          <div class="feat-title">Mapa en tiempo real (Google Maps)</div>
+          <div class="feat-desc">Visualiza tu propia ubicación y la de los usuarios que te tengan como contacto de emergencia. Marcadores diferenciados: SafeLink propio, celular de contacto y SafeLink de contacto.</div>
+        </div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1ACEA8" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div>
+          <div class="feat-title">Gestión de contactos de emergencia</div>
+          <div class="feat-desc">Agrega contactos con nombre y número. Toggle para activar/desactivar. El número de la Policía Nacional puede estar preconfigurado. Se sincronizan al dispositivo ESP32 por BLE.</div>
+        </div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon amber">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#FFB432" stroke-width="2"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+        </div>
+        <div>
+          <div class="feat-title">Configuración de palabras clave de voz</div>
+          <div class="feat-desc">Define desde la app qué palabras activan el micrófono INMP441 del dispositivo. Ej: "auxilio", "ayuda", "socorro, peligro". Se envían al ESP32 por BLE y se guardan localmente.</div>
+        </div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2E9BFF" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="feat-title">Historial de alertas</div>
+          <div class="feat-desc">Registro completo de todas las alertas emitidas con fecha, hora, tipo de activación (voz/botón físico/app) y coordenadas. Exportable para informes o pruebas de rendimiento.</div>
+        </div>
+      </div>
+    </div>
+    <!-- Phone mockup -->
+    <div class="phone-wrap">
+      <div class="phone-outer">
+        <div class="phone-inner">
+          <div class="phone-notch"></div>
+          <div style="padding: 0 12px 0; margin-bottom:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <div style="font-family:var(--font-display);font-size:0.9rem;font-weight:700;">SafeLink</div>
+              <div style="width:24px;height:24px;background:rgba(46,155,255,0.15);border-radius:6px;display:flex;align-items:center;justify-content:center;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2E9BFF" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+              </div>
+            </div>
+          </div>
+          <div style="padding:0 12px 8px;">
+            <div style="font-size:0.75rem;font-weight:600;color:var(--white);margin-bottom:2px;">Hola, Dayana 👋</div>
+            <div style="font-size:0.6rem;color:var(--gray-mid);">Estado de tu dispositivo SafeLink</div>
+          </div>
+          <div style="padding:0 12px 10px;">
+            <div class="sos-area" style="padding:0.8rem;">
+              <div class="sos-label">Botón de emergencia</div>
+              <div class="sos-btn" style="width:52px;height:52px;font-size:0.7rem;">SOS</div>
+              <div class="sos-hint">Mantén 2s para activar</div>
+            </div>
+          </div>
+          <div style="padding:0 12px 10px;">
+            <div class="map-placeholder">
+              <div class="map-grid"></div>
+              <div class="map-dot"></div>
+              <div class="map-label">📍 Chiclayo, Lambayeque</div>
+            </div>
+          </div>
+          <div class="phone-quick-grid" style="padding:0 12px 10px;">
+            <div class="quick-btn"><div class="q-icon">👥</div><div class="q-label">Contactos</div></div>
+            <div class="quick-btn"><div class="q-icon">🗺️</div><div class="q-label">Ver mapa</div></div>
+            <div class="quick-btn"><div class="q-icon">⚙️</div><div class="q-label">Configurar</div></div>
+            <div class="quick-btn"><div class="q-icon">📋</div><div class="q-label">Historial</div></div>
+          </div>
+          <div class="phone-bottom-nav">
+            <span class="active">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+              Inicio
+            </span>
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              Contactos
+            </span>
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              Ubicación
+            </span>
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Historial
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HARDWARE -->
+<section class="hardware" id="dispositivo">
+  <div class="section-label">Hardware wearable</div>
+  <h2 class="section-h2">Dispositivo <span>ESP32</span> autónomo</h2>
+  <p class="section-sub">PCB compacta con operación híbrida: sincroniza con la app por BLE cuando el celular está disponible, opera de forma completamente autónoma cuando no lo está.</p>
+  <div class="hw-grid">
+    <div class="hw-components">
+      <div class="hw-comp">
+        <div class="hw-comp-dot" style="background:#2E9BFF;"></div>
+        <div>
+          <h4>ESP32-WROOM-32D</h4>
+          <p>Cerebro del sistema. Gestiona todos los módulos, ejecuta la lógica de emergencia, BLE integrado 5.x</p>
+        </div>
+      </div>
+      <div class="hw-comp">
+        <div class="hw-comp-dot" style="background:#1ACEA8;"></div>
+        <div>
+          <h4>NEO-M8N GPS</h4>
+          <p>Multi-constelación: GPS + GLONASS + Galileo. Antena activa 25×25 mm. UART a 9600 baudios, 3.3V</p>
+        </div>
+      </div>
+      <div class="hw-comp">
+        <div class="hw-comp-dot" style="background:#FFB432;"></div>
+        <div>
+          <h4>A7670SA GSM/4G LTE-M</h4>
+          <p>Conectividad celular autónoma. Comandos AT a 115200 baudios. SIM propia independiente del celular</p>
+        </div>
+      </div>
+      <div class="hw-comp">
+        <div class="hw-comp-dot" style="background:#E8314A;"></div>
+        <div>
+          <h4>INMP441 Micrófono MEMS I2S</h4>
+          <p>Activación por voz. Bajo consumo, alta calidad de señal. Detecta palabras clave configuradas por BLE</p>
+        </div>
+      </div>
+      <div class="hw-comp">
+        <div class="hw-comp-dot" style="background:#9B59FF;"></div>
+        <div>
+          <h4>DS3231 RTC</h4>
+          <p>Marca temporal precisa para cada alerta. Opera independiente de la red. Esencial para reconstrucción cronológica</p>
+        </div>
+      </div>
+      <div class="hw-comp">
+        <div class="hw-comp-dot" style="background:#2E9BFF;"></div>
+        <div>
+          <h4>Batería LiPo 3.7V 3000 mAh</h4>
+          <p>Alimentación principal. Carga por USB-C (TP4056). Boost MT3608 → 5V para GSM. Regulador AMS1117 → 3.3V</p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="hw-spec-box">
+        <h3>Especificaciones técnicas</h3>
+        <div class="spec-row"><span class="key">Microcontrolador</span><span class="val blue">ESP32-WROOM-32D</span></div>
+        <div class="spec-row"><span class="key">Voltaje lógico</span><span class="val">3.3V (ningún pin tolera 5V)</span></div>
+        <div class="spec-row"><span class="key">GPS baudrate</span><span class="val">9600 bps (UART)</span></div>
+        <div class="spec-row"><span class="key">GSM baudrate</span><span class="val">115200 bps (AT commands)</span></div>
+        <div class="spec-row"><span class="key">Micrófono</span><span class="val">INMP441 I2S digital</span></div>
+        <div class="spec-row"><span class="key">Comunicación app</span><span class="val blue">BLE 5.x bidireccional</span></div>
+        <div class="spec-row"><span class="key">Conectividad autónoma</span><span class="val">4G LTE-M / GSM</span></div>
+        <div class="spec-row"><span class="key">Latencia alerta objetivo</span><span class="val green">≤ 10 segundos</span></div>
+        <div class="spec-row"><span class="key">Precisión GPS urbana</span><span class="val green">≤ 10 metros</span></div>
+        <div class="spec-row"><span class="key">Tasa entrega alertas</span><span class="val green">≥ 95%</span></div>
+        <div class="spec-row"><span class="key">Backend</span><span class="val">Firebase + MQTT + Twilio</span></div>
+        <div class="spec-row"><span class="key">App framework</span><span class="val blue">Flutter (Android)</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="arch" id="arquitectura">
+  <div class="section-label">Arquitectura del sistema</div>
+  <h2 class="section-h2">Flujo de <span>datos</span> completo</h2>
+  <p class="section-sub">Tres capas interconectadas garantizan la redundancia y la baja latencia requeridas para una respuesta efectiva.</p>
+  <div class="arch-diagram">
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+      <div class="arch-box accent" style="flex:0 0 auto;min-width:140px;">
+        <h4>🔴 Activación</h4>
+        <p>Botón físico · Voz INMP441 · App SOS</p>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-box" style="flex:0 0 auto;min-width:140px;">
+        <h4>📡 ESP32</h4>
+        <p>GPS NEO-M8N · RTC DS3231 · Lógica híbrida</p>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-box" style="flex:1;min-width:180px;">
+        <h4>📶 Canal de transmisión</h4>
+        <p>BLE → App → Firebase (con celular) · 4G LTE-M autónomo (sin celular)</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+      <div class="arch-label">Modo híbrido</div>
+      <div class="arch-arrow" style="color:var(--gray-mid);">↕</div>
+      <div class="arch-label">Modo autónomo</div>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+      <div class="arch-box" style="flex:1;min-width:150px;">
+        <h4>☁️ Firebase</h4>
+        <p>Auth · Realtime DB · Cloud Functions · Push notifications</p>
+      </div>
+      <div class="arch-arrow">+</div>
+      <div class="arch-box" style="flex:1;min-width:150px;">
+        <h4>📨 Twilio</h4>
+        <p>SMS programático a contactos · Canal de fallback garantizado</p>
+      </div>
+      <div class="arch-arrow">+</div>
+      <div class="arch-box" style="flex:1;min-width:150px;">
+        <h4>🔧 MQTT Broker</h4>
+        <p>QoS 2 · Entrega garantizada · Baja latencia en tiempo real</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+      <div class="arch-box accent" style="flex:1;">
+        <h4>📱 App Flutter</h4>
+        <p>Mapa Google Maps · Contactos · Historial · Config BLE · Botón SOS</p>
+      </div>
+      <div class="arch-arrow">←</div>
+      <div class="arch-box" style="flex:1;">
+        <h4>🔔 Contactos de emergencia</h4>
+        <p>Notificación push · SMS · Coordenadas GPS · Timestamp exacto</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section class="research" id="investigacion">
+  <div class="section-label">Base de investigación</div>
+  <h2 class="section-h2">El problema que <span>SafeLink</span> aborda</h2>
+  <p class="section-sub">Datos oficiales que fundamentan la urgencia de una solución tecnológica para la localización de personas desaparecidas en el Perú.</p>
+  <div class="research-grid">
+    <div class="research-card">
+      <span class="badge red">Perú 2025</span>
+      <div class="big-num">12<span>,374</span></div>
+      <p>Casos de personas desaparecidas reportados entre enero y julio de 2025 en el Perú. Un promedio de 58 denuncias diarias según el Sistema de Denuncias Policiales.</p>
+      <cite>Fuente: Infobae / Sistema de Denuncias Policiales PNP, 2025</cite>
+    </div>
+    <div class="research-card">
+      <span class="badge blue">Lambayeque</span>
+      <div class="big-num"><span>+</span>543</div>
+      <p>Denuncias de personas desaparecidas en Lambayeque en el primer trimestre de 2025. Aproximadamente 200 casos en la provincia de Chiclayo entre marzo y julio 2025.</p>
+      <cite>Fuente: Plataforma Nacional de Datos Abiertos, Gobierno del Perú, 2025</cite>
+    </div>
+    <div class="research-card">
+      <span class="badge red">Brecha crítica</span>
+      <div class="big-num">50<span>%</span></div>
+      <p>Tasa de localización efectiva. El Ministerio del Interior reporta que en promedio 20,000 personas desaparecen al año pero solo la mitad son ubicadas exitosamente.</p>
+      <cite>Fuente: Ministerio del Interior del Perú – Diagnóstico sobre Desaparición de Personas</cite>
+    </div>
+    <div class="research-card">
+      <span class="badge green">Vulnerabilidad</span>
+      <div class="big-num">57<span>.7%</span></div>
+      <p>De los casos corresponden a mujeres. El 52% son menores de edad. Estas poblaciones requieren mecanismos de alerta que funcionen incluso bajo coerción o estrés extremo.</p>
+      <cite>Fuente: RENIPED / Infobae Perú, 2025</cite>
+    </div>
+    <div class="research-card">
+      <span class="badge blue">Evidencia científica</span>
+      <div class="big-num">≤<span>10s</span></div>
+      <p>Latencia objetivo del sistema. La literatura especializada demuestra que tecnologías con baja latencia en alertas y geolocalización precisa mejoran significativamente las tasas de resolución de casos.</p>
+      <cite>Fuente: Ehn et al. (2021), Journal of Medical Internet Research</cite>
+    </div>
+    <div class="research-card">
+      <span class="badge green">Marco tecnológico</span>
+      <div class="big-num">IoT<span>+</span></div>
+      <p>El sistema combina redundancia de canales (BLE, 4G LTE-M, SMS), GPS multi-constelación y reconocimiento de voz. Principios validados por Moore et al. (2021) y Singh et al. (2025).</p>
+      <cite>Fuente: Revisión sistemática de dispositivos GPS portátiles para poblaciones vulnerables</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="sobre">
+  <div class="section-label">Sobre el proyecto</div>
+  <h2 class="section-h2">Tesis universitaria con <span>impacto real</span></h2>
+  <div class="about-inner">
+    <div class="about-card">
+      <div class="about-avatar">D</div>
+      <h3>Dayana Berenice Orrillo Castro</h3>
+      <div class="role">Investigadora principal · Ingeniería de Sistemas y Computación</div>
+      <p>Proyecto de tesis orientado a resolver un problema social crítico en Chiclayo mediante la integración de tecnologías IoT, comunicaciones móviles y desarrollo de software. El sistema SafeLink es el resultado de un proceso de investigación basado en metodología SCRUM y Design Science Research.</p>
+      <div class="uni-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2E9BFF" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        <div>
+          <strong>Universidad Católica Santo Toribio de Mogrovejo</strong>
+          <span>Facultad de Ingeniería · USAT · Chiclayo, 2025</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-meta">
+      <div class="meta-item">
+        <h4>Metodología de desarrollo</h4>
+        <p>SCRUM ágil con 5 sprints: Planificación → Diseño técnico → Desarrollo e integración → Pruebas → Comunicación y defensa</p>
+      </div>
+      <div class="meta-item">
+        <h4>Objetivo general</h4>
+        <p>Desarrollar una aplicación móvil integrada con dispositivo GPS autónomo para generar alertas inmediatas en la localización de jóvenes universitarios desaparecidos en zonas urbanas de Chiclayo.</p>
+      </div>
+      <div class="meta-item">
+        <h4>Colaborador institucional</h4>
+        <p>General PNP Luis Ángel Bolaños Melgarejo · Región Policial Lambayeque · Validación y pruebas del sistema</p>
+      </div>
+      <div class="meta-item">
+        <h4>Indicadores de éxito</h4>
+        <p>Latencia de alerta ≤ 10 s · Precisión GPS ≤ 10 m · Tasa de entrega ≥ 95% · Satisfacción usuarios ≥ 85% (escala SUS)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contacto">
+  <div class="section-label" style="justify-content:center;">Contacto</div>
+  <h2 class="section-h2" style="max-width:600px;margin:0 auto 1rem;">¿Quieres saber más sobre <span style="color:var(--blue-bright)">SafeLink</span>?</h2>
+  <p>Este proyecto es una tesis universitaria en desarrollo activo. Si eres investigador, institución de seguridad o estás interesado en colaborar, escríbenos.</p>
+  <div class="cta-btns">
+    <a href="mailto:safelink.usat@gmail.com" class="btn-primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Contactar
+    </a>
+    <a href="#investigacion" class="btn-outline">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      Ver investigación
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">SafeLink</div>
+  <p>Tesis · USAT Facultad de Ingeniería · Chiclayo 2025 · Dayana Berenice Orrillo Castro</p>
+  <div class="footer-links">
+    <a href="#como-funciona">Cómo funciona</a>
+    <a href="#app">App</a>
+    <a href="#dispositivo">Dispositivo</a>
+    <a href="#investigacion">Investigación</a>
+  </div>
+</footer>
+
+</body>
+</html>
