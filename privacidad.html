@@ -75,7 +75,7 @@
 
   <span class="etiqueta">Documento legal</span>
   <h1>Política de privacidad</h1>
-  <p class="meta">Versión 1.0 · Última actualización: 1 de noviembre de 2026</p>
+  <p class="meta">Versión 1.1 · Última actualización: 3 de noviembre de 2026</p>
 
   <div class="resumen">
     <strong>En pocas palabras.</strong> SafeLink usa tu ubicación, tus datos de contacto y, si activas la palabra de pánico por voz,
@@ -110,20 +110,20 @@
   <ul>
     <li><strong>Cuenta y perfil:</strong> nombre, correo electrónico, contraseña (la gestiona Firebase Authentication; nosotros no la vemos), número de teléfono y, si lo completas, tu DNI. También guardamos la fecha en la que aceptaste esta política.</li>
     <li><strong>Verificación del teléfono:</strong> para comprobar que el número es tuyo, Firebase Authentication (Google) te envía un SMS con un código. Google recibe y almacena el número para prevenir abusos.</li>
-    <li><strong>Ubicación:</strong> la del teléfono mientras la app está en uso y la de tu dispositivo SafeLink (GPS). De ambas solo se conserva la última posición conocida. Además, cada alerta guarda la ubicación del momento en que se activó.</li>
+    <li><strong>Ubicación:</strong> la del teléfono mientras la app está en uso y la de tu dispositivo SafeLink (GPS). De ambas solo se conserva la última posición conocida. Además, cada alerta guarda la ubicación del momento en que se activó. Mientras una alerta está activa, la última posición de tu dispositivo y de tu teléfono también se copia a la alerta para que la policía pueda seguirte; esa copia se elimina cuando la alerta se cierra.</li>
     <li><strong>Alertas:</strong> hora, tipo (botón, app o voz), estado (activa, cancelada, atendida, no atendida), número de caso, ubicación y nivel de batería del dispositivo.</li>
     <li><strong>Voz:</strong> si activas la palabra de pánico por voz, el dispositivo detecta que hay voz y envía unos segundos de audio a nuestro servidor, que lo manda al servicio Google Cloud Speech-to-Text para comprobar si dijiste tu palabra. El audio se procesa en memoria y <strong>SafeLink no lo guarda</strong>. Lo que sí se guarda es la palabra de pánico que escribes, como texto en tu perfil.</li>
     <li><strong>Contactos de emergencia:</strong> el nombre, el número de teléfono y la relación de las personas que agregas, además del estado de su invitación (pendiente, aceptada o rechazada).</li>
     <li><strong>Datos técnicos:</strong> un identificador para enviarte notificaciones a la app y registros de acciones importantes (por ejemplo, inicio de sesión en modo policía o cambios de rol), para poder auditar el uso del sistema.</li>
   </ul>
-  <p>El dispositivo SafeLink se comunica con la app por Bluetooth para recibir el identificador de tu cuenta y su configuración.</p>
+  <p>El dispositivo SafeLink se comunica con la app por Bluetooth para recibir el identificador de tu cuenta, las redes WiFi que configures y su configuración. Las redes WiFi (nombre y clave) se guardan en la memoria del dispositivo y no en nuestros servidores. Al vincularlo, la app genera un código secreto que se guarda en el dispositivo y en tu cuenta, donde solo tú puedes leerlo, para que únicamente tu cuenta pueda configurarlo.</p>
 
   <h2 id="finalidades">3. Para qué usamos tus datos</h2>
   <ul>
     <li>Detectar y enviar tus alertas de emergencia, y avisar de su estado a quienes las reciben.</li>
     <li>Mostrar tu ubicación a los contactos que aceptaron ser tus contactos de emergencia.</li>
     <li>Verificar tu identidad y tu número de teléfono, y evitar que otra persona se haga pasar por ti.</li>
-    <li>Permitir que la policía identifique a una persona con una alerta activa.</li>
+    <li>Permitir que la policía identifique a una persona con una alerta activa y siga su ubicación mientras la alerta esté activa.</li>
     <li>Mantener y mejorar el sistema, y elaborar estadísticas agregadas de alertas para la investigación de la tesis, sin identificar a las personas.</li>
   </ul>
   <p><strong>No usamos tus datos para publicidad ni los vendemos a terceros.</strong></p>
@@ -131,7 +131,7 @@
   <h2 id="comparticion">4. Con quién se comparten</h2>
   <ul>
     <li><strong>Tus contactos de emergencia:</strong> reciben tus alertas por SMS, WhatsApp y notificación en la app, con tu nombre, la hora y un enlace a tu ubicación. Cuando la alerta se cancela, se atiende o se cierra sin atender, se les avisa, normalmente con una notificación en la app y, si no la tienen, con un SMS en caso de cancelación. Quienes aceptaron tu invitación además pueden ver tu ubicación mientras compartas. Quien rechazó la invitación no recibe alertas ni ve tu ubicación. Si alguien rechaza tu invitación o deja de ser tu contacto, te avisamos, sin indicar el motivo.</li>
-    <li><strong>Policía:</strong> las personas con rol de policía, asignado por un administrador y protegido con un PIN, pueden ver el nombre, el DNI, el teléfono y la ubicación de quien tiene una alerta activa, y hasta 24 horas después de que se cierre. Cuando se activa una alerta, todas las cuentas de policía reciben un aviso genérico, sin nombre, DNI ni ubicación; esos datos solo se ven dentro de la app, después de ingresar el PIN.</li>
+    <li><strong>Policía:</strong> las personas con rol de policía, asignado por un administrador y protegido con un PIN, pueden ver el nombre, el DNI y el teléfono de quien tiene una alerta activa, y hasta 24 horas después de que se cierre. Mientras la alerta está activa ven además la ubicación en tiempo real de tu dispositivo y de tu teléfono. Cuando la alerta se cierra, por cualquier motivo (cancelada, atendida, no atendida o reemplazada por otra), dejan de ver tu ubicación actual; durante las 24 horas siguientes solo pueden ver el punto donde se activó la alerta. Cuando se activa una alerta, todas las cuentas de policía reciben un aviso genérico, sin nombre, DNI ni ubicación; esos datos solo se ven dentro de la app, después de ingresar el PIN.</li>
     <li><strong>Administradores del sistema:</strong> acceden a datos de cuentas y a registros de auditoría para operar el servicio.</li>
     <li><strong>Proveedores que procesan datos por encargo:</strong>
       <ul>
@@ -152,14 +152,14 @@
   <h2 id="conservacion">7. Cuánto tiempo conservamos tus datos</h2>
   <ul>
     <li><strong>Alertas e historial:</strong> 12 meses desde su fecha. Después se eliminan.</li>
-    <li><strong>Ubicación del teléfono y del dispositivo:</strong> solo la última posición, que se sobrescribe con la siguiente.</li>
+    <li><strong>Ubicación del teléfono y del dispositivo:</strong> solo la última posición, que se sobrescribe con la siguiente. La copia que ve la policía existe únicamente mientras la alerta está activa.</li>
     <li><strong>Audio de voz:</strong> no se guarda.</li>
     <li><strong>Cuenta, perfil y contactos:</strong> hasta que pidas eliminar tu cuenta.</li>
     <li><strong>Registros de auditoría:</strong> los necesarios para la seguridad del sistema y la tesis.</li>
   </ul>
 
   <h2 id="seguridad">8. Seguridad</h2>
-  <p>Protegemos tus datos con conexiones cifradas (HTTPS), reglas de acceso por usuario en las bases de datos, contraseñas gestionadas por Firebase Authentication, un PIN opcional para proteger los cambios de estado de las alertas y registros de auditoría. Ningún sistema es completamente invulnerable; si detectamos un incidente que afecte tus datos, te lo comunicaremos.</p>
+  <p>Protegemos tus datos con conexiones cifradas (HTTPS), reglas de acceso por usuario en las bases de datos, contraseñas gestionadas por Firebase Authentication, un PIN opcional para proteger los cambios de estado de las alertas, un código secreto por dispositivo (el dispositivo solo acepta órdenes firmadas por la cuenta que lo vinculó y solo muestra su ubicación por Bluetooth a esa cuenta) y registros de auditoría. Ningún sistema es completamente invulnerable; si detectamos un incidente que afecte tus datos, te lo comunicaremos.</p>
 
   <h2 id="derechos">9. Tus derechos</h2>
   <p>Puedes ejercer tus derechos de <strong>acceso, rectificación, cancelación y oposición</strong> sobre tus datos personales, y revocar tu consentimiento cuando quieras. Para hacerlo, escribe a <a href="mailto:anayabk1820@gmail.com">anayabk1820@gmail.com</a> indicando tu nombre y el correo de tu cuenta. Responderemos dentro de los plazos que fija la ley.</p>
